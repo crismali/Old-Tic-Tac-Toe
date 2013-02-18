@@ -16,8 +16,14 @@ class Game
   def play_a_round
     # did_anyone_win?
     #whatever needs to happen to make a round happen
+    return "Cat's game!" if cats_game?
+    @player_1.mark_the_board(@board_array)
+    @player_2.mark_the_board(@board_array)
+    did_anyone_win?
+  end
 
-
+  def cats_game?
+    @board_array.uniq.size == 2
   end
 
   def did_anyone_win?
@@ -100,5 +106,3 @@ class Game
  end
 
 end
-
-g = Game.new
