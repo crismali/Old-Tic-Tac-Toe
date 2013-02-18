@@ -58,9 +58,9 @@ class Game
 
   def diagonal_win?
 
-    if @board.board_array[0] == @board.board_array[4] && @board.board_array[0] == @board.board_array[8]
+    if @board_array[0] == @board_array[4] && @board_array[0] == @board_array[8]
       return true
-    elsif @board.board_array[2] == @board.board_array[4] && @board.board_array[2] == @board.board_array[6]
+    elsif @board_array[2] == @board_array[4] && @board_array[2] == @board_array[6]
       return true
     else
       return nil
@@ -96,4 +96,3 @@ class Game
 end
 
 g = Game.new
-g.board.draw_board
