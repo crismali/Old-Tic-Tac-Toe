@@ -14,20 +14,17 @@ module Setup
     puts "\nWould you like to play against a friend (option 1)"
     puts "or against the computer (option 2)?\n"
 
-    user_input = gets.chomp
+    until @player_2
+      user_input = gets.chomp
 
-    if user_input.chomp == "1"
-      #plays against other human taking turns
-      @player_2 = HumanPlayer.new
-    elsif user_input == "2"
-      #plays against computer
-      @player_2 = ComputerPlayer.new
-    else
-      puts "Please enter a 1 or a 2."
-      play_against_friend_or_cpu?
+      if user_input.chomp == "1"
+        @player_2 = HumanPlayer.new
+      elsif user_input == "2"
+        @player_2 = ComputerPlayer.new
+      else
+        puts "Please enter a 1 (for a human opponent) or a 2 (for a computer opponent)."
+      end
     end
-
-    play_a_round
   end
 
 
