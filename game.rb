@@ -3,19 +3,19 @@ class Game
   include Setup
   include VictoryChecks
 
-  attr_accessor :player_1, :player_2, :players_array, :board_array, :who_won
+  attr_accessor :player_1, :player_2, :players_array, :board_array, :who_won, :players_array, :which_player
 
   def initialize
-    @board_array = { [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] }
+    @board_array = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
     @player_1 = HumanPlayer.new
     @player_2 = nil
     @who_won = false
-
+    @which_player = 0
     introduce_game
 
     play_against_friend_or_cpu?
 
-    @players_array = [@player1, @player_2]
+    @players_array = [ @player_1, @player_2 ]
 
     until @who_won
       play_a_round
@@ -28,11 +28,18 @@ class Game
   def play_a_round
 
     @players_array.each do |player|
-      player.mark_the_board(@board_array)
+
+      draw_board if player.class == HumanPlayer
+
+      @which_player = @players_array.index(player)
+
+      @board_array = player.mark_the_board(@board_array, @which_player)
 
       did_anyone_win?
 
-      return "Cat's Game!" if cats_game?
+      @who_won = "Cat's game!" if cats_game?
+
+      break if @who_won
     end
 
   end
