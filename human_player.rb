@@ -1,6 +1,15 @@
 class HumanPlayer
 
-  def mark_the_board(board_array)
+  def mark_the_board(board_array, which_player)
+
+    if which_player == 0
+      which_player = 'X'
+    else
+      which_player = 'O'
+    end
+
+    puts "Please enter a number that corresponds to an unmarked space."
+    puts "(psst, in case you forgot, you're #{which_player}'s)"
 
     valid = false
 
@@ -8,7 +17,10 @@ class HumanPlayer
       input = gets.chomp
       valid = valid_human_input?(input, board_array)
     end
-    return input
+
+    board_array[input.to_i - 1] = which_player
+
+    return board_array
   end
 
   def valid_human_input?(input, board_array)
@@ -16,7 +28,7 @@ class HumanPlayer
    if input.to_i > 9 || input.to_i < 1
       puts "Invalid choice. Only numbers 1-9 are accepted."
       return false
-    elsif board_array[input.to_i - 1].int?
+    elsif board_array[input.to_i - 1].is_a? Integer
       return true
     else
       puts "You or the other player has already selected that space."
