@@ -3,7 +3,7 @@ class Game
   include Setup
   include VictoryChecks
 
-  attr_accessor :player_1, :player_2, :board_array, :who_won
+  attr_accessor :player_1, :player_2, :players_array, :board_array, :who_won
 
   def initialize
     @board_array = { [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] }
@@ -15,23 +15,22 @@ class Game
 
     play_against_friend_or_cpu?
 
+    @players_array = [@player1, @player_2]
+
     play_a_round
 
   end
 
   def play_a_round
-    #put players in array so .each can be used and the repeated code can be put in a block
-    @player_1.mark_the_board(@board_array)
 
-    did_anyone_win?
+    @players_array.each do |player|
+      player.mark_the_board(@board_array)
 
-    return "Cat's game!" if cats_game?
+      did_anyone_win?
 
-    @player_2.mark_the_board(@board_array)
+      return "Cat's Game!" if cats_game?
+    end
 
-    did_anyone_win?
-
-    return "Cat's game!" if cats_game?
   end
 
   def draw_board
