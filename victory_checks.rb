@@ -1,7 +1,7 @@
 module VictoryChecks
 
   def cats_game?
-    @board_array.uniq.size == 2
+    @board_array.uniq.size == 2 && @who_won == false
   end
 
   def did_anyone_win?
