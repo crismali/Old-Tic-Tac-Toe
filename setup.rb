@@ -27,5 +27,18 @@ module Setup
     end
   end
 
+  def game_over
+    system ('clear')
+    puts "#{@who_won}'s win!"
+    if @who_won == 'X'
+      puts "Good job, player 1!"
+      puts "Better luck next time player 2" if @player_2.class == HumanPlayer
+    else
+      puts "Tough luck, player 1."
+      puts "Good job, player 2" if @player_2.class == HumanPlayer
+      puts "Now that Skynet has mastered Tic-Tac-Toe, it focus on global conquest!" if @player_2.class == ComputerPlayer
+    end
+  end
+
 
 end
