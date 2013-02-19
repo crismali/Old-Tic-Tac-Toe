@@ -1,6 +1,6 @@
 module VictoryChecks
 
-   def cats_game?
+  def cats_game?
     @board_array.uniq.size == 2
   end
 
