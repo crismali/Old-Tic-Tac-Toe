@@ -29,14 +29,19 @@ module Setup
 
   def game_over
     system ('clear')
-    puts "#{@who_won}'s win!"
+    draw_board
+
     if @who_won == 'X'
+      puts "#{@who_won}'s win!"
       puts "Good job, player 1!"
       puts "Better luck next time player 2" if @player_2.class == HumanPlayer
-    else
+    elsif @who_won == 'O'
+      puts "#{@who_won}'s win!"
       puts "Tough luck, player 1."
       puts "Good job, player 2" if @player_2.class == HumanPlayer
       puts "Now that Skynet has mastered Tic-Tac-Toe, it focus on global conquest!" if @player_2.class == ComputerPlayer
+    else
+      puts @who_won
     end
   end
 
