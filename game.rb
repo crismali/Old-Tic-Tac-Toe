@@ -17,7 +17,11 @@ class Game
 
     @players_array = [@player1, @player_2]
 
-    play_a_round
+    until @who_won
+      play_a_round
+    end
+
+    game_over
 
   end
 
