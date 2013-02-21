@@ -30,35 +30,11 @@ class ComputerPlayer
 
     cpu_choice = false
 
-    cpu_choice = diagonal_block?(board_array)
-    cpu_choice = horizontal_block?(board_array) unless cpu_choice
-    cpu_choice = vertical_block?(board_array) unless cpu_choice
+    cpu_choice = if_should_block_logic(get_diagonals(board_array))
+    cpu_choice = if_should_block_logic(get_rows(board_array)) unless cpu_choice
+    cpu_choice = if_should_block_logic(get_columns(board_array)) unless cpu_choice
 
     return cpu_choice
-
-  end
-
-  def diagonal_block?(board_array)
-
-    diagonal_1, diagonal_2 = get_diagonals(board_array)
-
-    return if_should_block_logic(diagonal_1, diagonal_2)
-
-  end
-
-  def horizontal_block?(board_array)
-
-    row_1, row_2, row_3 = get_rows(board_array)
-
-    return if_should_block_logic(row_1, row_2, row_3)
-
-  end
-
-  def vertical_block?(board_array)
-
-    column_1, column_2, column_3 = get_columns(board_array)
-
-    return if_should_block_logic(column_1, column_2, column_3)
 
   end
 
@@ -97,6 +73,7 @@ class ComputerPlayer
   def play_strategy(board_array)
 
     board_array.uniq.select! { |element| element.is_a? Integer}
+    board_array.include? 5
 
   end
 
