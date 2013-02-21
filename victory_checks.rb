@@ -1,6 +1,6 @@
 module VictoryChecks
 
-  include './get_lines'
+  include GetLines
 
   def cats_game?
     @board_array.uniq.size == 2 && @who_won == false
