@@ -1,5 +1,7 @@
 class ComputerPlayer
 
+  include './get_lines'
+
   def mark_the_board(board_array, which_player)
 
     which_player = 'O'
@@ -40,13 +42,7 @@ class ComputerPlayer
     diagonal_1 = board_array.values_at(0,4,8)
     diagonal_2 = board_array.values_at(2,4,6)
 
-    if section_should_be_blocked?(diagonal_1) && any_spaces_available?(diagonal_1).first
-      return any_spaces_available?(diagonal_1).first
-    elsif section_should_be_blocked?(diagonal_2) && any_spaces_available?(diagonal_2).first
-      return any_spaces_available?(diagonal_2).first
-    else
-      return false
-    end
+   return if_should_block_logic(diagonal_1, diagonal_2)
 
   end
 
@@ -55,15 +51,7 @@ class ComputerPlayer
     row_2 = board_array.values_at(3,4,5)
     row_3 = board_array.values_at(6,7,8)
 
-    if section_should_be_blocked?(row_1) && any_spaces_available?(row_1).first
-      return any_spaces_available?(row_1).first
-    elsif section_should_be_blocked?(row_2) && any_spaces_available?(row_2).first
-      return any_spaces_available?(row_2).first
-    elsif section_should_be_blocked?(row_3) && any_spaces_available?(row_3).first
-      return any_spaces_available?(row_3).first
-    else
-      return false
-    end
+    return if_should_block_logic(row_1, row_2, row_3)
 
   end
 
@@ -72,12 +60,18 @@ class ComputerPlayer
     column_2 = board_array.values_at(1,4,7)
     column_3 = board_array.values_at(2,5,8)
 
-    if section_should_be_blocked?(column_1) && any_spaces_available?(column_1).first
-      return any_spaces_available?(column_1).first
-    elsif section_should_be_blocked?(column_2) && any_spaces_available?(column_2).first
-      return any_spaces_available?(column_2).first
-    elsif section_should_be_blocked?(column_3) && any_spaces_available?(column_3).first
-      return any_spaces_available?(column_3).first
+    return if_should_block_logic(column_1, column_2, column_3)
+
+  end
+
+  def if_should_block_logic(*lines)
+
+    if section_should_be_blocked?(lines[1]) && any_spaces_available?(lines[1]).first
+      return any_spaces_available?(lines[1]).first
+    elsif section_should_be_blocked?(lines[2]) && any_spaces_available?(lines[2]).first
+      return any_spaces_available?(lines[2]).first
+    elsif lines[3].present? && section_should_be_blocked?(lines[3]) && any_spaces_available?(lines[3]).first
+      return any_spaces_available?(lines[3]).first
     else
       return false
     end
@@ -106,6 +100,8 @@ class ComputerPlayer
   end
 
   def play_strategy(board_array)
+
+    board_array.uniq.select! { |element| element.is_a? Integer}
 
   end
 
