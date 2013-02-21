@@ -12,8 +12,6 @@ class ComputerPlayer
 
   def mark_the_board(board_array, which_player)
 
-    which_player = 'O'
-
     cpu_choice = cpu_decides_which_space(board_array)
 
     board_array[cpu_choice] = which_player
@@ -142,10 +140,10 @@ class ComputerPlayer
       space = @corners[3] if @first_move == 1 && space == false
       @second_move = space
     elsif 4 == board_array.count { |element| element.is_a? String}
-      space = @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include? @corners[0]
-      space = @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include? @corners[1] && space == false
-      space = @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include? @corners[2] && space == false
-      space = @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include? @corners[3] && space == false
+      space = @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include?(@corners[0])
+      space = @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include?(@corners[1]) && space == false
+      space = @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include?(@corners[2]) && space == false
+      space = @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include?(@corners[3]) && space == false
     end
 
     return space
