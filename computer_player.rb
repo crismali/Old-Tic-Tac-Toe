@@ -18,9 +18,9 @@ class ComputerPlayer
 
     cpu_choice = false
 
-    cpu_choice = complete_for_win?(get_diagonals(board_array), get_rows(board_array), get_columns(board_array))
+    cpu_choice = complete_for_win?(get_lines(board_array))
 
-    cpu_choice = block_opponent?(board_array) unless cpu_choice
+    cpu_choice = block_opponent?(get_lines(board_array)) unless cpu_choice
 
     cpu_choice = stop_corner_strategy?(board_array) unless cpu_choice
 
@@ -30,33 +30,19 @@ class ComputerPlayer
 
   end
 
-  def block_opponent?(board_array)
+  def block_opponent?(*array_of_lines)
 
-    cpu_choice = false
+    array_of_lines.flatten(1).each do |line|
 
-    cpu_choice = if_should_block_logic(get_diagonals(board_array))
-    cpu_choice = if_should_block_logic(get_rows(board_array)) unless cpu_choice
-    cpu_choice = if_should_block_logic(get_columns(board_array)) unless cpu_choice
+      available_space = any_spaces_available?(line).first
 
-    return cpu_choice
+      if section_should_be_blocked?(line) && available_space
+        return available_space
+      end
 
-  end
-
-  def if_should_block_logic(*lines)
-
-    available_in_line_1 = any_spaces_available?(lines[1]).first
-    available_in_line_2 = any_spaces_available?(lines[2]).first
-    available_in_line_3 = any_spaces_available?(lines[3]).first
-
-    if section_should_be_blocked?(lines[1]) && available_in_line_1
-      return available_in_line_1
-    elsif section_should_be_blocked?(lines[2]) && available_in_line_2
-      return available_in_line_2
-    elsif lines[3].present? && section_should_be_blocked?(lines[3]) && available_in_line_3
-      return available_in_line_3
-    else
-      return false
     end
+
+    return false
 
   end
 
@@ -71,9 +57,9 @@ class ComputerPlayer
       if section_should_be_blocked?(line)
 
         if line.uniq[0].is_a? Integer && line.uniq[1] == 'O'
-          return any_spaces_available?(line)
+          return any_spaces_available?(line).first
         elsif line.uniq[1].is_a? Integer && line.uniq[0] == 'O'
-          return any_spaces_available?(line)
+          return any_spaces_available?(line).first
         end
 
       end
