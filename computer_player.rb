@@ -1,6 +1,6 @@
 class ComputerPlayer
 
-  include './get_lines'
+  include GetLines
 
   def mark_the_board(board_array, which_player)
 
