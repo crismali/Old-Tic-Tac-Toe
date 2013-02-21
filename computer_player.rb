@@ -26,7 +26,7 @@ class ComputerPlayer
 
     cpu_choice = play_strategy(board_array) unless cpu_choice
 
-    return cpu_choice
+    return cpu_choice - 1
 
   end
 
@@ -73,15 +73,11 @@ class ComputerPlayer
 
   def any_spaces_available?(line)
 
-    available_spaces = Array.new
+    line.delete_if { |element| element.is_a? String}
 
-    line.each do |space|
-        available_spaces << line.index(space) if space.is_a? Integer
-    end
+    line << false if line.empty?
 
-    available_spaces << false if available_spaces.empty?
-
-    return available_spaces
+    return line
 
   end
 
@@ -103,13 +99,32 @@ class ComputerPlayer
         end
       end
     end
+
     return space
   end
 
   def play_strategy(board_array)
+    space = false
 
-    board_array.uniq.select! { |element| element.is_a? Integer}
-    board_array.include? 4
+    if board_array.uniq.size == 9 || board_array.uniq.size == 8
+      space = corner_if_available(space)
+    elsif board_array.uniq.size <= 7
+      space = 4 if board_array.include? 5
+      space = corner_if_available(space) unless space
+      space = any_spaces_available?(board_array).sample unless space
+    end
+
+    return space
+
+  end
+
+  def corner_if_available(space)
+    space = 0 if board_array.include? 1
+    space = 2 if board_array.include? 3
+    space = 6 if board_array.include? 7
+    space = 8 if board_array.include? 9
+
+    return space
 
   end
 
