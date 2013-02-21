@@ -1,6 +1,7 @@
 class Game
 
   include Setup
+  include GetLines
   include VictoryChecks
 
   attr_accessor :player_1, :player_2, :players_array, :board_array, :who_won, :players_array, :which_player
@@ -35,9 +36,9 @@ class Game
 
       @board_array = player.mark_the_board(@board_array, @which_player)
 
-      did_anyone_win?
+      @who_won = did_anyone_win?(@who_won, get_lines(@board_array))
 
-      @who_won = "Cat's game!" if cats_game?
+      @who_won = "Cat's game!" if cats_game?(@board_array, @who_won)
 
       break if @who_won
     end
