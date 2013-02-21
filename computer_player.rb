@@ -108,7 +108,15 @@ class ComputerPlayer
   def play_strategy(board_array)
     space = false
 
-    if board_array.uniq.size >= 8
+    if board_array.uniq.size == 9
+      diagonals = Array.new
+      diagonals = get_diagonals(board_array)
+      diagonals.each do |diagonal|
+        space = diagonal.first if diagonal.last == 'X'
+        space = diagonal.last if diagonal.first == 'X'
+      end
+      space = corner_if_available(board_array) unless space
+    elsif board_array.uniq.size == 8
       space = corner_if_available(board_array)
     elsif board_array.uniq.size <= 7
       space = 5 if board_array.include? 5
