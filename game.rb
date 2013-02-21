@@ -12,11 +12,16 @@ class Game
     @player_2 = nil
     @who_won = false
     @which_player = 0
+    @who_goes_first = nil
     introduce_game
 
     play_against_friend_or_cpu?
 
-    @players_array = [ @player_1, @player_2 ]
+    @who_goes_first = who_goes_first? if @player_2.class == ComputerPlayer
+
+    @players_array = [ @player_1, @player_2 ] if @who_goes_first.nil?
+
+    @players_array = [ @player_2, @player_1 ] if @who_goes_first == ComputerPlayer
 
     until @who_won
       play_a_round

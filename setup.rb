@@ -17,7 +17,7 @@ module Setup
     until @player_2
       user_input = gets.chomp
 
-      if user_input.chomp == "1"
+      if user_input == "1"
         @player_2 = HumanPlayer.new
       elsif user_input == "2"
         @player_2 = ComputerPlayer.new
@@ -25,6 +25,23 @@ module Setup
         puts "Please enter a 1 (for a human opponent) or a 2 (for a computer opponent)."
       end
     end
+  end
+
+  def who_goes_first?
+    puts "\nWould you like to go first?"
+    puts "(enter 1 for yes or 2 for no)"
+    user_input = gets.chomp
+
+    while true
+      if user_input == 1
+        return HumanPlayer
+      elsif user_input == 2
+        return ComputerPlayer
+      else
+        puts "Please enter a 1 (to go first) or a 2 (to go second)"
+      end
+    end
+
   end
 
   def game_over
