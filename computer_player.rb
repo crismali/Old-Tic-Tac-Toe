@@ -20,9 +20,9 @@ class ComputerPlayer
 
     cpu_choice = complete_for_win?(get_lines(board_array))
 
-    cpu_choice = stop_corner_strategy?(board_array) unless cpu_choice
-
     cpu_choice = block_opponent?(get_lines(board_array)) unless cpu_choice
+
+    cpu_choice = stop_corner_strategy?(board_array) unless cpu_choice
 
     cpu_choice = play_strategy(board_array) unless cpu_choice
 
@@ -32,10 +32,9 @@ class ComputerPlayer
 
   def block_opponent?(*array_of_lines)
 
-    array_of_lines.flatten(1).each do |line|
+    array_of_lines.flatten(2).each do |line|
 
       available_space = any_spaces_available?(line).first
-
       if section_should_be_blocked?(line) && available_space
         return available_space
       end
@@ -52,13 +51,14 @@ class ComputerPlayer
 
   def complete_for_win?(*array_of_lines)
 
-    array_of_lines.flatten(1).each do |line|
+    array_of_lines.flatten(2).each do |line|
+
 
       if section_should_be_blocked?(line)
 
-        if line.uniq[0].is_a? Integer && line.uniq[1] == 'O'
+        if line.uniq[0].is_a?(Integer) && line.uniq[1] == 'O'
           return any_spaces_available?(line).first
-        elsif line.uniq[1].is_a? Integer && line.uniq[0] == 'O'
+        elsif line.uniq[1].is_a?(Integer) && line.uniq[0] == 'O'
           return any_spaces_available?(line).first
         end
 
@@ -73,11 +73,13 @@ class ComputerPlayer
 
   def any_spaces_available?(line)
 
-    line.delete_if { |element| element.is_a? String}
+    new_line = line.clone
 
-    line << false if line.empty?
+    new_line = new_line.delete_if { |element| element.is_a? String}
 
-    return line
+    new_line << false if new_line.empty?
+
+    return new_line
 
   end
 
@@ -92,10 +94,10 @@ class ComputerPlayer
 
       if section_should_be_blocked?(diagonal)
         if diagonal.first == 'X' && diagonal.last == 'X'
-          space = 1 if board_array.include? 2
-          space = 3 if board_array.include? 4
-          space = 5 if board_array.include? 6
-          space = 7 if board_array.include? 8
+          space = 2 if board_array.include? 2
+          space = 4 if board_array.include? 4
+          space = 6 if board_array.include? 6
+          space = 8 if board_array.include? 8
         end
       end
     end
@@ -106,11 +108,11 @@ class ComputerPlayer
   def play_strategy(board_array)
     space = false
 
-    if board_array.uniq.size == 9 || board_array.uniq.size == 8
-      space = corner_if_available(space)
+    if board_array.uniq.size >= 8
+      space = corner_if_available(board_array)
     elsif board_array.uniq.size <= 7
-      space = 4 if board_array.include? 5
-      space = corner_if_available(space) unless space
+      space = 5 if board_array.include? 5
+      space = corner_if_available(board_array) unless space
       space = any_spaces_available?(board_array).sample unless space
     end
 
@@ -118,11 +120,11 @@ class ComputerPlayer
 
   end
 
-  def corner_if_available(space)
-    space = 0 if board_array.include? 1
-    space = 2 if board_array.include? 3
-    space = 6 if board_array.include? 7
-    space = 8 if board_array.include? 9
+  def corner_if_available(board_array)
+    space = 1 if board_array.include? 1
+    space = 3 if board_array.include? 3
+    space = 7 if board_array.include? 7
+    space = 9 if board_array.include? 9
 
     return space
 
