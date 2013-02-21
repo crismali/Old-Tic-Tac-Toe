@@ -20,9 +20,9 @@ class ComputerPlayer
 
     cpu_choice = complete_for_win?(get_lines(board_array))
 
-    cpu_choice = block_opponent?(get_lines(board_array)) unless cpu_choice
-
     cpu_choice = stop_corner_strategy?(board_array) unless cpu_choice
+
+    cpu_choice = block_opponent?(get_lines(board_array)) unless cpu_choice
 
     cpu_choice = play_strategy(board_array) unless cpu_choice
 
@@ -87,8 +87,23 @@ class ComputerPlayer
 
   def stop_corner_strategy?(board_array)
 
+    diagonals = Array.new
+    diagonals = get_diagonals(board_array)
 
+    space = false
 
+    diagonals.each do |diagonal|
+
+      if section_should_be_blocked?(diagonal)
+        if diagonal.first == 'X' && diagonal.last == 'X'
+          space = 1 if board_array.include? 2
+          space = 3 if board_array.include? 4
+          space = 5 if board_array.include? 6
+          space = 7 if board_array.include? 8
+        end
+      end
+    end
+    return space
   end
 
   def play_strategy(board_array)
