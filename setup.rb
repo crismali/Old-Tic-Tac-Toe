@@ -39,7 +39,7 @@ module Setup
       puts "#{@who_won}'s win!"
       puts "Tough luck, player 1."
       puts "Good job, player 2" if @player_2.class == HumanPlayer
-      puts "Now that Skynet has mastered Tic-Tac-Toe, it focus on global conquest!" if @player_2.class == ComputerPlayer
+      puts "Now that Skynet has mastered Tic-Tac-Toe, it will focus on global conquest!" if @player_2.class == ComputerPlayer
     else
       puts @who_won
     end
