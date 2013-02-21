@@ -2,6 +2,14 @@ class ComputerPlayer
 
   include GetLines
 
+  attr_accessor :first_move
+
+  def initialize
+    @corners = [ 1, 3, 7, 9]
+    @first_move = nil
+    @second_move = nil
+  end
+
   def mark_the_board(board_array, which_player)
 
     which_player = 'O'
@@ -122,6 +130,22 @@ class ComputerPlayer
       space = 5 if board_array.include? 5
       space = corner_if_available(board_array) unless space
       space = any_spaces_available?(board_array).sample unless space
+    end
+
+    if board_array == [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+      @first_move = @corners.sample
+      space = @first_move
+    elsif 2 == board_array.count { |element| element.is_a? String}
+      space = @corners[0] if @first_move == 9
+      space = @corners[1] if @first_move == 7 && space == false
+      space = @corners[2] if @first_move == 3 && space == false
+      space = @corners[3] if @first_move == 1 && space == false
+      @second_move = space
+    elsif 4 == board_array.count { |element| element.is_a? String}
+      space = @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include? @corners[0]
+      space = @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include? @corners[1] && space == false
+      space = @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include? @corners[2] && space == false
+      space = @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include? @corners[3] && space == false
     end
 
     return space
