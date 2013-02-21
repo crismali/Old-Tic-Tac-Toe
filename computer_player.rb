@@ -88,12 +88,9 @@ class ComputerPlayer
         available_spaces << array.index(space) if space.is_a? Integer
     end
 
-    if available_spaces.empty?
-      available_spaces << false
-      return available_spaces
-    else
-      return available_spaces
-    end
+    available_spaces << false if available_spaces.empty?
+
+    return available_spaces
 
   end
 
