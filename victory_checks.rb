@@ -18,13 +18,8 @@ module VictoryChecks
 
     diagonal_1, diagonal_2 = get_diagonals(@board_array)
 
-    if all_same_elements?(diagonal_1)
-      return diagonal_1.first
-    elsif all_same_elements?(diagonal_2)
-      return diagonal_2.first
-    else
-      return false
-    end
+    return return_first_if_all_same_elements(diagonal_1, diagonal_2)
+
 
   end
 
@@ -32,15 +27,7 @@ module VictoryChecks
 
     row_1, row_2, row_3 = get_rows(@board_array)
 
-    if all_same_elements?(row_1)
-      return row_1.first
-    elsif all_same_elements?(row_2)
-      return row_2.first
-    elsif all_same_elements?(row_3)
-      return row_3.first
-    else
-      return false
-    end
+    return return_first_if_all_same_elements(row_1, row_2, row_3)
 
   end
 
@@ -48,20 +35,26 @@ module VictoryChecks
 
     column_1, column_2, column_3 = get_columns(@board_array)
 
-    if all_same_elements?(column_1)
-      return column_1.first
-    elsif all_same_elements?(column_2)
-      return column_2.first
-    elsif all_same_elements?(column_3)
-      return column_3.first
-    else
-      return false
-    end
+    return return_first_if_all_same_elements(column_1, column_2, column_3)
 
   end
 
   def all_same_elements?(array)
     array.uniq.size == 1
+  end
+
+  def return_first_if_all_same_elements(*lines)
+
+    if all_same_elements?(lines[1])
+      return lines[1].first
+    elsif all_same_elements?(lines[2])
+      return lines[2].first
+    elsif lines[3].present? && all_same_elements?(lines[3])
+      return lines[3].first
+    else
+      return false
+    end
+
   end
 
 
