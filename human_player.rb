@@ -2,12 +2,6 @@ class HumanPlayer
 
   def mark_the_board(board_array, which_player)
 
-    if which_player == 0
-      which_player = 'X'
-    else
-      which_player = 'O'
-    end
-
     puts "Please enter a number that corresponds to an unmarked space."
     puts "(psst, in case you forgot, you're #{which_player}'s)"
 

@@ -11,7 +11,7 @@ class Game
     @player_1 = HumanPlayer.new
     @player_2 = nil
     @who_won = false
-    @which_player = 0
+    @which_player = 'X'
     @who_goes_first = nil
     introduce_game
 
@@ -37,13 +37,17 @@ class Game
 
       draw_board if player.class == HumanPlayer
 
-      @which_player = @players_array.index(player)
-
       @board_array = player.mark_the_board(@board_array, @which_player)
 
       @who_won = did_anyone_win?(@who_won, get_lines(@board_array))
 
       @who_won = "Cat's game!" if cats_game?(@board_array, @who_won)
+
+      if @which_player == 'X'
+        @which_player = 'O'
+      elsif @which_player == 'O'
+        @which_player = 'X'
+      end
 
       break if @who_won
     end
