@@ -1,5 +1,17 @@
 module GetLines
 
+  def get_lines(board_array)
+
+    lines = Array.new
+
+    lines << get_diagonals(board_array)
+    lines << get_rows(board_array)
+    lines << get_columns(board_array)
+
+    return lines
+
+  end
+
   def get_diagonals(board_array)
 
     diagonal_1 = board_array.values_at(0,4,8)
