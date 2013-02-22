@@ -30,7 +30,7 @@ class ComputerPlayer
 
     cpu_choice = stop_corner_strategy?(board_array) unless cpu_choice
 
-    cpu_choice = play_strategy(board_array) unless cpu_choice
+    cpu_choice = play_strategy(board_array, which_player) unless cpu_choice
 
     return cpu_choice - 1
 
@@ -111,16 +111,25 @@ class ComputerPlayer
     return space
   end
 
-  def play_strategy(board_array)
+  def play_strategy(board_array, which_player)
     space = false
+    other_player = nil
+    if which_player == 'X'
+      other_player == 'O'
+    elsif which_player == 'O'
+      other_player == 'X'
+    end
+
 
     if board_array.uniq.size == 9
       diagonals = Array.new
       diagonals = get_diagonals(board_array)
+
       diagonals.each do |diagonal|
-        space = diagonal.first if diagonal.last == 'X'
-        space = diagonal.last if diagonal.first == 'X'
+        space = diagonal.first if diagonal.last == other_player
+        space = diagonal.last if diagonal.first == other_player
       end
+
       space = corner_if_available(board_array) unless space
     elsif board_array.uniq.size == 8
       space = corner_if_available(board_array)
@@ -134,16 +143,23 @@ class ComputerPlayer
       @first_move = @corners.sample
       space = @first_move
     elsif 2 == board_array.count { |element| element.is_a? String}
-      space = @corners[0] if @first_move == 9
-      space = @corners[1] if @first_move == 7 && space == false
-      space = @corners[2] if @first_move == 3 && space == false
-      space = @corners[3] if @first_move == 1 && space == false
+      space = false
+      space = @corners[0] if @first_move == 9 && board_array.include?(@corners[0])
+      space = @corners[1] if @first_move == 7 && board_array.include?(@corners[1]) && space == false
+      space = @corners[2] if @first_move == 3 && board_array.include?(@corners[2]) && space == false
+      space = @corners[3] if @first_move == 1 && board_array.include?(@corners[3]) && space == false
       @second_move = space
     elsif 4 == board_array.count { |element| element.is_a? String}
       space = @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include?(@corners[0])
       space = @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include?(@corners[1]) && space == false
       space = @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include?(@corners[2]) && space == false
       space = @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include?(@corners[3]) && space == false
+    elsif space == false
+      space = corner_if_available(board_array)
+      space = 5 if board_array.include?(5) && space == false
+    elsif space == false
+      board_clone = board_array.clone.delete_if {|x| x.is_a? String}
+      space = board_clone.sample
     end
 
     return space
