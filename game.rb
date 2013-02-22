@@ -19,7 +19,7 @@ class Game
 
     @who_goes_first = who_goes_first? if @player_2.class == ComputerPlayer
 
-    @players_array = [ @player_1, @player_2 ] if @who_goes_first.nil?
+    @players_array = [ @player_1, @player_2 ] if @who_goes_first == HumanPlayer
 
     @players_array = [ @player_2, @player_1 ] if @who_goes_first == ComputerPlayer
 
@@ -43,13 +43,14 @@ class Game
 
       @who_won = "Cat's game!" if cats_game?(@board_array, @who_won)
 
+      break if @who_won
+
       if @which_player == 'X'
         @which_player = 'O'
       elsif @which_player == 'O'
         @which_player = 'X'
       end
 
-      break if @who_won
     end
 
   end
