@@ -19,7 +19,7 @@ class Game
 
     @who_goes_first = who_goes_first? if @player_2.class == ComputerPlayer
 
-    @players_array = [ @player_1, @player_2 ] if @who_goes_first == HumanPlayer
+    @players_array = [ @player_1, @player_2]
 
     @players_array = [ @player_2, @player_1 ] if @who_goes_first == ComputerPlayer
 
