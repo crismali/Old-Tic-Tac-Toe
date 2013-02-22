@@ -12,7 +12,7 @@ class ComputerPlayer
 
   def mark_the_board(board_array, which_player)
 
-    cpu_choice = cpu_decides_which_space(board_array)
+    cpu_choice = cpu_decides_which_space(board_array, which_player)
 
     board_array[cpu_choice] = which_player
 
@@ -20,11 +20,11 @@ class ComputerPlayer
 
   end
 
-  def cpu_decides_which_space(board_array)
+  def cpu_decides_which_space(board_array, which_player)
 
     cpu_choice = false
 
-    cpu_choice = complete_for_win?(get_lines(board_array))
+    cpu_choice = complete_for_win?(which_player, get_lines(board_array))
 
     cpu_choice = block_opponent?(get_lines(board_array)) unless cpu_choice
 
@@ -55,16 +55,16 @@ class ComputerPlayer
     array.uniq.size == 2
   end
 
-  def complete_for_win?(*array_of_lines)
+  def complete_for_win?(which_player, *array_of_lines)
 
     array_of_lines.flatten(2).each do |line|
 
 
       if section_should_be_blocked?(line)
 
-        if line.uniq[0].is_a?(Integer) && line.uniq[1] == 'O'
+        if line.uniq[0].is_a?(Integer) && line.uniq[1] == which_player
           return any_spaces_available?(line).first
-        elsif line.uniq[1].is_a?(Integer) && line.uniq[0] == 'O'
+        elsif line.uniq[1].is_a?(Integer) && line.uniq[0] == which_player
           return any_spaces_available?(line).first
         end
 
