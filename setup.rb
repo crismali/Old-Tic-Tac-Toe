@@ -52,17 +52,28 @@ module Setup
     system ('clear')
     draw_board
 
-    if @who_won == 'X'
-      puts "#{@who_won}'s win!"
+    puts "#{@who_won}'s win!"
+
+    if @who_won == 'X' && @player_2.class == HumanPlayer
       puts "Good job, player 1!"
-      puts "Better luck next time player 2" if @player_2.class == HumanPlayer
-    elsif @who_won == 'O'
-      puts "#{@who_won}'s win!"
+      puts "Better luck next time player 2"
+    elsif @who_won == 'O' && @player_2.class == HumanPlayer
       puts "Tough luck, player 1."
       puts "Good job, player 2" if @player_2.class == HumanPlayer
-      puts "Now that Skynet has mastered Tic-Tac-Toe, it will focus on global conquest!" if @player_2.class == ComputerPlayer
-    else
-      puts @who_won
+    elsif @players_array.first.class == HumanPlayer && @who_won == 'X'
+      puts "Good job, whoever you are!"
+      puts "But beware... every time Skynet loses, it becomes smarter..."
+    elsif @players_array.first.class == HumanPlayer && @who_won == 'O'
+      puts "Tough luck, whoever you are"
+      puts "Especially because now that Skynet has mastered Tic-Tac-Toe, "
+      puts "it will focus on global conquest!"
+    elsif @players_array.first.class == ComputerPlayer && @who_won == 'X'
+      puts "Tough luck, whoever you are"
+      puts "Especially because now that Skynet has mastered Tic-Tac-Toe, "
+      puts "it will focus on global conquest!"
+    elsif @players_array.first.class == ComputerPlayer && @who_won == 'O'
+      puts "Good job, whoever you are!"
+      puts "But beware... every time Skynet loses, it becomes smarter..."
     end
   end
 
