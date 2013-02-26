@@ -36,9 +36,9 @@ class ComputerPlayer
 
   end
 
-  def block_opponent?(*array_of_lines)
+  def block_opponent?(array_of_lines)
 
-    array_of_lines.flatten(2).each do |line|
+    array_of_lines.flatten(1).each do |line|
 
       available_space = any_spaces_available?(line).first
       if section_should_be_blocked?(line) && available_space
@@ -55,9 +55,9 @@ class ComputerPlayer
     array.uniq.size == 2
   end
 
-  def complete_for_win?(which_player, *array_of_lines)
+  def complete_for_win?(which_player, array_of_lines)
 
-    array_of_lines.flatten(2).each do |line|
+    array_of_lines.flatten(1).each do |line|
 
 
       if section_should_be_blocked?(line)
@@ -143,13 +143,24 @@ class ComputerPlayer
         space = diagonal.last if diagonal.first == other_player
       end
 
-      space = corner_if_available(board_array) unless space
+      space ||= corner_if_available(board_array)
     elsif board_array.uniq.size == 8
       space = corner_if_available(board_array)
     elsif board_array.uniq.size <= 7
       space = 5 if board_array.include? 5
       space = corner_if_available(board_array) unless space
       space = any_spaces_available?(board_array).sample unless space
+    end
+
+    array_of_lines = get_lines(board_array)
+
+    array_of_lines.flatten(1).each do |line|
+      puts "line = #{line.inspect}"
+      if line.uniq.size == 3 && line.include?(which_player)
+        marked_index = line.index(which_player)
+        line.delete_at(marked_index)
+        space = line.sample
+      end
     end
 
     if board_array == [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
@@ -169,7 +180,7 @@ class ComputerPlayer
       space ||= @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include?(@corners[3])
     elsif space == false
       space = corner_if_available(board_array)
-      space = 5 if board_array.include?(5) && space == false
+      space ||= 5 if board_array.include? 5
     elsif space == false
       board_clone = board_array.clone.delete_if {|x| x.is_a? String}
       space = board_clone.sample
