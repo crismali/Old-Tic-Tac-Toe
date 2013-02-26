@@ -24,13 +24,13 @@ class ComputerPlayer
 
     cpu_choice = false
 
-    cpu_choice = complete_for_win?(which_player, get_lines(board_array))
+    cpu_choice ||= complete_for_win?(which_player, get_lines(board_array))
 
-    cpu_choice = block_opponent?(get_lines(board_array)) unless cpu_choice
+    cpu_choice ||= block_opponent?(get_lines(board_array))
 
-    cpu_choice = stop_corner_strategy?(board_array) unless cpu_choice
+    cpu_choice ||= stop_corner_strategy?(board_array, which_player)
 
-    cpu_choice = play_strategy(board_array, which_player) unless cpu_choice
+    cpu_choice ||= play_strategy(board_array, which_player)
 
     return cpu_choice - 1
 
@@ -89,7 +89,21 @@ class ComputerPlayer
 
   end
 
-  def stop_corner_strategy?(board_array)
+  def get_other_player(which_player)
+
+    other_player = nil
+    if which_player == 'X'
+      other_player == 'O'
+    elsif which_player == 'O'
+      other_player == 'X'
+    end
+    return other_player
+
+  end
+
+  def stop_corner_strategy?(board_array, which_player)
+
+    other_player = get_other_player(which_player)
 
     diagonals = Array.new
     diagonals = get_diagonals(board_array)
@@ -99,7 +113,7 @@ class ComputerPlayer
     diagonals.each do |diagonal|
 
       if section_should_be_blocked?(diagonal)
-        if diagonal.first == 'X' && diagonal.last == 'X'
+        if diagonal.first == other_player && diagonal.last == other_player
           space = 2 if board_array.include? 2
           space = 4 if board_array.include? 4
           space = 6 if board_array.include? 6
@@ -113,13 +127,8 @@ class ComputerPlayer
 
   def play_strategy(board_array, which_player)
     space = false
-    other_player = nil
-    if which_player == 'X'
-      other_player == 'O'
-    elsif which_player == 'O'
-      other_player == 'X'
-    end
 
+    other_player = get_other_player(which_player)
 
     if board_array.uniq.size == 9
       diagonals = Array.new
@@ -144,16 +153,16 @@ class ComputerPlayer
       space = @first_move
     elsif 2 == board_array.count { |element| element.is_a? String}
       space = false
-      space = @corners[0] if @first_move == 9 && board_array.include?(@corners[0])
-      space = @corners[1] if @first_move == 7 && board_array.include?(@corners[1]) && space == false
-      space = @corners[2] if @first_move == 3 && board_array.include?(@corners[2]) && space == false
-      space = @corners[3] if @first_move == 1 && board_array.include?(@corners[3]) && space == false
+      space ||= @corners[0] if @first_move == 9 && board_array.include?(@corners[0])
+      space ||= @corners[1] if @first_move == 7 && board_array.include?(@corners[1])
+      space ||= @corners[2] if @first_move == 3 && board_array.include?(@corners[2])
+      space ||= @corners[3] if @first_move == 1 && board_array.include?(@corners[3])
       @second_move = space
     elsif 4 == board_array.count { |element| element.is_a? String}
-      space = @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include?(@corners[0])
-      space = @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include?(@corners[1]) && space == false
-      space = @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include?(@corners[2]) && space == false
-      space = @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include?(@corners[3]) && space == false
+      space ||= @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include?(@corners[0])
+      space ||= @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include?(@corners[1])
+      space ||= @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include?(@corners[2])
+      space ||= @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include?(@corners[3])
     elsif space == false
       space = corner_if_available(board_array)
       space = 5 if board_array.include?(5) && space == false
