@@ -156,7 +156,7 @@ class ComputerPlayer
 
     array_of_lines.flatten(1).each do |line|
 
-      if line.uniq.size == 3 && line.include?(which_player)
+      if line.uniq.size == 3 && line.include?(which_player) && !line.include?(other_player)
         marked_index = line.index(which_player)
         line.delete_at(marked_index)
         space = line.sample
@@ -166,24 +166,14 @@ class ComputerPlayer
     if board_array == [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
       @first_move = @corners.sample
       space = @first_move
-    elsif 2 == board_array.count { |element| element.is_a? String }
+    elsif 2 == board_array.count { |element| element.is_a? String } || 4 == board_array.count { |element| element.is_a? String }
       space = false
-      space ||= @corners[0] if @first_move == 9 && board_array.include?(@corners[0])
-      space ||= @corners[1] if @first_move == 7 && board_array.include?(@corners[1])
-      space ||= @corners[2] if @first_move == 3 && board_array.include?(@corners[2])
-      space ||= @corners[3] if @first_move == 1 && board_array.include?(@corners[3])
-      @second_move = space
-    elsif 4 == board_array.count { |element| element.is_a? String}
-      space ||= @corners[0] if @first_move == 9 && @second_move == 1 && board_array.include?(@corners[0])
-      space ||= @corners[1] if @first_move == 3 && @second_move == 7 && board_array.include?(@corners[1])
-      space ||= @corners[2] if @first_move == 1 && @second_move == 9 && board_array.include?(@corners[2])
-      space ||= @corners[3] if @first_move == 7 && @second_move == 3 && board_array.include?(@corners[3])
+      space = corner_if_available(board_array)
     elsif space == false
       space = corner_if_available(board_array)
       space ||= 5 if board_array.include? 5
-    elsif space == false
-      board_clone = board_array.clone.delete_if {|x| x.is_a? String}
-      space = board_clone.sample
+      board_clone = board_array.clone.delete_if {|x| x.is_a? String} unless space
+      space ||= board_clone.sample
     end
 
     return space
