@@ -155,7 +155,7 @@ class ComputerPlayer
     array_of_lines = get_lines(board_array)
 
     array_of_lines.flatten(1).each do |line|
-      puts "line = #{line.inspect}"
+
       if line.uniq.size == 3 && line.include?(which_player)
         marked_index = line.index(which_player)
         line.delete_at(marked_index)
