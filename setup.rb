@@ -52,9 +52,11 @@ module Setup
     system ('clear')
     draw_board
 
-    puts "#{@who_won}'s win!"
+    puts "#{@who_won}'s win!" unless @who_won == "Cat's game!"
 
-    if @who_won == 'X' && @player_2.class == HumanPlayer
+    if @who_won == "Cat's game!"
+      puts @who_won
+    elsif @who_won == 'X' && @player_2.class == HumanPlayer
       puts "Good job, player 1!"
       puts "Better luck next time player 2"
     elsif @who_won == 'O' && @player_2.class == HumanPlayer
