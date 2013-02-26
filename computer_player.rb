@@ -173,6 +173,10 @@ class ComputerPlayer
 
     end
 
+    if board_array.values_at(0,5) == [other_player, other_player]
+      space = 2
+    end
+
     if board_array == [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
       @first_move = @corners.sample
       space = @first_move
