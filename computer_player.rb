@@ -28,7 +28,7 @@ class ComputerPlayer
 
     cpu_choice ||= block_opponent?(get_lines(board_array))
 
-    cpu_choice ||= stop_corner_strategy?(board_array, which_player)
+    cpu_choice ||= stop_three_corner_strategy?(board_array, which_player)
 
     cpu_choice ||= play_strategy(board_array, which_player)
 
@@ -76,7 +76,6 @@ class ComputerPlayer
 
   end
 
-
   def any_spaces_available?(line)
 
     new_line = line.clone
@@ -93,15 +92,16 @@ class ComputerPlayer
 
     other_player = nil
     if which_player == 'X'
-      other_player == 'O'
-    elsif which_player == 'O'
-      other_player == 'X'
+      other_player = 'O'
+    else
+      other_player = 'X'
     end
+
     return other_player
 
   end
 
-  def stop_corner_strategy?(board_array, which_player)
+  def stop_three_corner_strategy?(board_array, which_player)
 
     other_player = get_other_player(which_player)
 
@@ -112,13 +112,17 @@ class ComputerPlayer
 
     diagonals.each do |diagonal|
 
-      if section_should_be_blocked?(diagonal)
-        if diagonal.first == other_player && diagonal.last == other_player
+       if diagonal.first == other_player || diagonal.last == other_player
+
+        if board_array.uniq.size == 9 && board_array.include?(5) && which_player == 'O'
+          space = 5
+        elsif board_array.uniq.size == 8 && board_array[4] == which_player
           space = 2 if board_array.include? 2
           space = 4 if board_array.include? 4
           space = 6 if board_array.include? 6
           space = 8 if board_array.include? 8
         end
+
       end
     end
 
@@ -151,7 +155,7 @@ class ComputerPlayer
     if board_array == [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
       @first_move = @corners.sample
       space = @first_move
-    elsif 2 == board_array.count { |element| element.is_a? String}
+    elsif 2 == board_array.count { |element| element.is_a? String }
       space = false
       space ||= @corners[0] if @first_move == 9 && board_array.include?(@corners[0])
       space ||= @corners[1] if @first_move == 7 && board_array.include?(@corners[1])
