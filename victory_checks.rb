@@ -6,9 +6,9 @@ module VictoryChecks
     board_array.uniq.size == 2 && who_won == false
   end
 
-  def did_anyone_win?(who_won, *array_of_lines)
+  def did_anyone_win?(who_won, array_of_lines)
 
-    array_of_lines.flatten(2).each do |line|
+    array_of_lines.flatten(1).each do |line|
         return line.first if all_same_elements?(line)
     end
 
