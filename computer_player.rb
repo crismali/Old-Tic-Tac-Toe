@@ -163,6 +163,16 @@ class ComputerPlayer
       end
     end
 
+    if 1 == board_array.count {|element| element == other_player}
+      other_players_space = board_array.index(other_player)
+      [1,3,5,7].each do |edge|
+        if other_players_space == edge
+          space = 5
+        end
+      end
+
+    end
+
     if board_array == [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
       @first_move = @corners.sample
       space = @first_move
